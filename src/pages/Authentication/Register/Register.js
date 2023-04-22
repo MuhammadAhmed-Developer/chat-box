@@ -1,23 +1,54 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import profile from '../../../accests/images/profile.jpg'
+import {AuthContext} from '../../../Context/AuthContext';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../../Config/firebase';
+
+
 
 const initialState = {
-  displayame: '',
+  img: '',
+  displayName: '',
   email:'',
   password:''
 }
 
 export default function Login() {
-
+  const navigate = useNavigate()
+  // const {dispatch} = useContext(AuthContext)
+  const [state, setState] = useState(initialState)
   const [isProcessing, setIsProcesssing] = useState(false)
+  const [file, setFile] = useState({})
 
-  const handleChange = () => {
-    console.log('hi')
+  const handleChange = (e) => {
+    setState(s=>({...s,[e.target.name]:e.target.value}))
     
   }
 
-  const handleSubmit = () => {
-    console.log('hi')
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(state)
+    console.log(file)
+    const {email, password} = state
+ setIsProcesssing(true)
+    createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
+    // ...
+    // dispatch({type:"LOGIN", payload:{user}})
+        navigate('/')
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+    setIsProcesssing(false)
+
+  });
+
 
   }
 
@@ -34,6 +65,12 @@ export default function Login() {
              </div>
             </div>
            <form onSubmit={handleSubmit} >
+           <div className="row mb-3">
+             <div className=" text-center">
+                <label htmlFor="img" className='user-img'><img src={profile} alt="profile" className='border border-secondary img-fluid rounded-circle w-50' /></label>
+               <input type="file" id='img' accept='imges' className='form-control d-none'  name='img' onChange={e=>{setFile(e.target.files[0])}} />
+             </div>
+            </div>
            <div className="row mb-3">
              <div className="col">
                 <label htmlFor="text">User Name</label>
@@ -54,7 +91,7 @@ export default function Login() {
             </div>
             <div className="row mb-4">
              <div className="col">
-               <button className='btn btn-primary w-100' disabled={isProcessing}> 
+               <button className='btn btn-secondary w-100 text-light fw-bold' disabled={isProcessing}> 
                {!isProcessing ? 'Sign Up' : 
                <div className='spinner-border spinner-border-sm'></div>
                }
@@ -64,7 +101,7 @@ export default function Login() {
            </form>
             <div className="row">
              <div className="col">
-               <p className="mb-0 text-center">Already have  an Account?</p>
+               <p className="mb-0 text-center">Already have  an Account? <Link to='/authentication/login'>Login</Link></p>
              </div>
             </div>
           </div>

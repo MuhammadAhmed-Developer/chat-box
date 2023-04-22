@@ -57,7 +57,7 @@ export default function Login() {
            </form>
             <div className="row">
              <div className="col">
-               <p className="mb-0 text-center">Already have  an Account?</p>
+               <p className="mb-0 text-center">Already have  an Account? <Link to='/authentication/register'>Sign UP</Link></p>
              </div>
             </div>
           </div>
