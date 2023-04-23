@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile  } from 'firebase/auth';
 import {auth} from '../../../Config/firebase';
 import { AuthContext } from '../../../Context/AuthContext';
 import profile from '../../../accests/images/profile.jpg'
@@ -49,9 +49,11 @@ export default function Register() {
     setIsProcesssing(false)
     // ..
   });
+}
 
-
-  }
+const createUserProfile = () =>{
+  
+}
 
   return (
 

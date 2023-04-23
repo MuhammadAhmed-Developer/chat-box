@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import {AuthContext}  from '../../../Context/AuthContext'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../../Config/firebase'
 
 const initialState = {
   email:'',
@@ -7,18 +10,39 @@ const initialState = {
 }
 
 export default function Login() {
-
+  const {dispatch} = useContext(AuthContext)
+  const navigate = useNavigate()
   const [state, setState] = useState(initialState)
   const [isProcessing, setIsProcesssing] = useState(false)
 
 
-  const handleChange = () => {
-    console.log('hi')
+  const handleChange = (e) => {
+    
+    setState(s=>({...s,[e.target.name]:e.target.value}))
     
   }
 
-  const handleSubmit = () => {
-    console.log('hi')
+  const handleSubmit = (e) => {
+    e.preventDefault()
+     const {email, password} = state
+     setIsProcesssing(true)
+     signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
+    dispatch({type:'LOGIN', payload:{user}})
+      navigate('/')
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  })
+  .finally(()=>{
+    setIsProcesssing(false)
+  })
+  setIsProcesssing(true)
+
 
   }
 
