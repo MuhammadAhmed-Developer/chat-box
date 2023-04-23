@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {auth} from '../../../Config/firebase';
+import { AuthContext } from '../../../Context/AuthContext';
 import profile from '../../../accests/images/profile.jpg'
-import {AuthContext} from '../../../Context/AuthContext';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../../Config/firebase';
 
 
 
@@ -14,39 +14,40 @@ const initialState = {
   password:''
 }
 
-export default function Login() {
+export default function Register() {
+  const {dispatch} = useContext(AuthContext)  
   const navigate = useNavigate()
-  // const {dispatch} = useContext(AuthContext)
-  const [state, setState] = useState(initialState)
+  const[state, setState] = useState(initialState)
   const [isProcessing, setIsProcesssing] = useState(false)
-  const [file, setFile] = useState({})
+  const {file , setFile} = useState({})
 
-  const handleChange = (e) => {
+  const handleChange  =(e) =>{
     setState(s=>({...s,[e.target.name]:e.target.value}))
-    
-  }
+  } 
 
-  const handleSubmit = (e) => {
+  const handleSubmit= (e) =>{
     e.preventDefault()
     console.log(state)
-    console.log(file)
+
     const {email, password} = state
- setIsProcesssing(true)
+
+    setIsProcesssing(true)
+
     createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
     console.log(user)
-    // ...
-    // dispatch({type:"LOGIN", payload:{user}})
-        navigate('/')
+    dispatch({type:'LOGIN', payload:{user}})
+
+    navigate('/')
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    // ..
+    window.notify("Something went wrong", 'error')
     setIsProcesssing(false)
-
+    // ..
   });
 
 

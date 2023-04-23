@@ -8,7 +8,9 @@ const initialState = {
 
 export default function Login() {
 
+  const [state, setState] = useState(initialState)
   const [isProcessing, setIsProcesssing] = useState(false)
+
 
   const handleChange = () => {
     console.log('hi')
