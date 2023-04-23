@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile  } from 'firebase/auth';
-import {auth} from '../../../Config/firebase';
+import {auth, storage} from '../../../Config/firebase';
 import { AuthContext } from '../../../Context/AuthContext';
 import profile from '../../../accests/images/profile.jpg'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 
 
@@ -19,7 +20,10 @@ export default function Register() {
   const navigate = useNavigate()
   const[state, setState] = useState(initialState)
   const [isProcessing, setIsProcesssing] = useState(false)
-  const {file , setFile} = useState({})
+  const [file, setFile] = useState({})
+  const [user, setUser] = useState({});
+  const [downloadURL, setDownloadURL] = useState('')
+
 
   const handleChange  =(e) =>{
     setState(s=>({...s,[e.target.name]:e.target.value}))
@@ -41,6 +45,7 @@ export default function Register() {
     dispatch({type:'LOGIN', payload:{user}})
 
     navigate('/')
+    Userimg()
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -51,8 +56,65 @@ export default function Register() {
   });
 }
 
-const createUserProfile = () =>{
-  
+
+const Userimg = async () =>{
+  let {displayName} = state
+  const filExtantion = file.name.split('.').pop();
+  const randomId = Math.random().toString(36).slice(2)
+
+
+  const storageRef = ref(storage, `userImg/${randomId}.${filExtantion}`);
+  const uploadTask = uploadBytesResumable(storageRef, file);
+
+  uploadTask.on('state_changed',
+  (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+          case 'paused':
+              console.log('Upload is paused');
+              break;
+          case 'running':
+              console.log('Upload is running');
+              break;
+      }
+  },
+  (error) => {
+      // Handle unsuccessful uploads
+      console.log(error)
+  },
+  () => {
+      // Handle successful uploads on complete
+      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          setDownloadURL(downloadURL)
+          let formData = { displayName }
+
+
+          let userData = { ...formData, downloadURL}
+          createUserProfile(userData)
+      });
+  }
+);
+
+} 
+
+
+
+const createUserProfile = (userData) =>{
+  const {displayName, downloadURL} = userData
+  updateProfile(auth.currentUser, {
+    displayName: displayName, photoURL: downloadURL
+  }).then(() => {
+    // Profile updated!
+    // ...
+  }).catch((error) => {
+    // An error occurred
+    // ...
+  });
 }
 
   return (
@@ -71,7 +133,9 @@ const createUserProfile = () =>{
            <div className="row mb-3">
              <div className=" text-center">
                 <label htmlFor="img" className='user-img'><img src={profile} alt="profile" className='border border-secondary img-fluid rounded-circle w-50' /></label>
-               <input type="file" id='img' accept='imges' className='form-control d-none'  name='img' onChange={e=>{setFile(e.target.files[0])}} />
+               <input type="file" id='img' accept='imges' className='form-control d-none'  name='img'
+                onChange={e=>{setFile(e.target.files[0])}} />
+                <p>{file.name}</p>
              </div>
             </div>
            <div className="row mb-3">
