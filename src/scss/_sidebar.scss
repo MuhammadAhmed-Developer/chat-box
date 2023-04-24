@@ -9,7 +9,7 @@
 .Navbar{
     display: flex;
     align-items: center;
-    background-color: purple;
+    background-color: rgb(112, 51, 112);
     padding: 10px;
     justify-content: space-between;
     
@@ -37,4 +37,13 @@
 }
 .searchbar::placeholder{
     color: rgb(231, 226, 231);
+}
+.user:hover{
+    background-color: rgb(85, 58, 85);
+    cursor: pointer;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
 }
