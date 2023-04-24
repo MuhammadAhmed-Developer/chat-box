@@ -1,0 +1,22 @@
+
+.home{
+    background-color: #a7bcff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .Container{
+        border: 1px solid white;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        width: 65%;
+        height: 80%;
+        overflow: hidden;
+        display: flex;
+}
+}
+

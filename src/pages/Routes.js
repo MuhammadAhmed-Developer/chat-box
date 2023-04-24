@@ -10,14 +10,14 @@ export default function CustomRoutes() {
     <>
 
     <BrowserRouter>
-    <Header/>
+    {/* <Header/> */}
     <main>
      <Routes>
         <Route path='/*' element={<Frontend/>} />
         <Route path='/authentication/*' element={<Authentication/>} />
     </Routes>
     </main>
-    <Footer/>
+    {/* <Footer/> */}
     </BrowserRouter>
     </>
     

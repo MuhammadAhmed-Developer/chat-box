@@ -133,7 +133,7 @@ const createUserProfile = (userData) =>{
            <div className="row mb-3">
              <div className=" text-center">
                 <label htmlFor="img" className='user-img'><img src={profile} alt="profile" className='border border-secondary img-fluid rounded-circle w-50' /></label>
-               <input type="file" id='img' accept='imges' className='form-control d-none'  name='img'
+               <input type="file" id='img' accept="image/*" className='form-control d-none'  name='img'
                 onChange={e=>{setFile(e.target.files[0])}} />
                 <p>{file.name}</p>
              </div>

@@ -1,7 +1,18 @@
 import React from 'react'
+import ChatHeader from '../../Frontend/Components/ChatHeader'
+import Sidebar from '../Components/Sidebar'
+import MsgBox from '../Components/MsgBox'
 
 export default function Hero() {
   return (
-    <h1>Hero sectioon</h1>
+    
+      <div className='home'>
+        <div className="Container">
+          <Sidebar/>
+          <MsgBox/>
+
+        </div>
+      </div>
+    
   )
 }
