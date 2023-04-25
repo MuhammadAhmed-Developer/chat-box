@@ -173,6 +173,7 @@ const createUserProfile = (userData) =>{
             </div>
           </div>
        </div>
+       <img src={user.photoURL} alt="" />
      </div>
     </div>
  </div>

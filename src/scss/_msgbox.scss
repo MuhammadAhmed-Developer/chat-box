@@ -1,10 +1,14 @@
 .msgbox{
     flex: 2;
+    overflow:scroll;
+    background-color: rgb(91, 92, 126) ;
+    
+
 }
 
 .msgboxheader{
     background-color: rgb(143, 144, 188);
-    padding: 13px;
+    padding: 10.5px;
 }
 .header{
     display: flex;
@@ -12,4 +16,19 @@
     cursor: pointer;
 
    
+}
+
+.messages{
+    // padding: 10px;
+    //  height: calc(100% - 160px);
+    color: white;
+
+}
+.input{
+    background-color: #fff;
+    border: 0;
+    outline: none;
+    position: fixed;
+    top: 82vh;
+    width: 42%;
 }

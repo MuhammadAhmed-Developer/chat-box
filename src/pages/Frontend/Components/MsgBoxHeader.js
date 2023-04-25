@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function MsgBoxHeader() {
   return (
-    <div className='msgboxheader'>
+    <div className='msgboxheader' style={{position: 'fixed', width: 574}}>
         <div className='header'>
             <span className='fw-bold text-white'>Usman Shahid</span>
         <div className=''>
