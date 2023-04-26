@@ -13,8 +13,8 @@ export default function CustomRoutes() {
     <Header/>
     <main>
      <Routes>
+        <Route path='/Authentication*' element={<Authentication/>} />
         <Route path='/*' element={<Frontend/>} />
-        <Route path='/authentication/*' element={<Authentication/>} />
     </Routes>
     </main>
     {/* <Footer/> */}

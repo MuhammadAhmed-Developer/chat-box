@@ -16,12 +16,11 @@ const initialState = {
 }
 
 export default function Register() {
-  const {dispatch} = useContext(AuthContext)  
+  const {dispatch, user} = useContext(AuthContext)  
   const navigate = useNavigate()
   const[state, setState] = useState(initialState)
   const [isProcessing, setIsProcesssing] = useState(false)
   const [file, setFile] = useState({})
-  const [user, setUser] = useState({});
   const [downloadURL, setDownloadURL] = useState('')
 
 
@@ -173,7 +172,6 @@ const createUserProfile = (userData) =>{
             </div>
           </div>
        </div>
-       <img src={user.photoURL} alt="" />
      </div>
     </div>
  </div>

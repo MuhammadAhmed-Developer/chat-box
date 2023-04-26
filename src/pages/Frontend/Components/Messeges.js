@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import pic from '../../../accests/images/profile.jpg';
+import { AuthContext } from '../../../Context/AuthContext';
 
 export default function Messeges() {
+  const {user} = useContext(AuthContext)
   return (
     <div className='messages'>
         <div className="container" style={{marginTop: 60}}>

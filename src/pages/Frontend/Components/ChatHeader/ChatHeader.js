@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import profile from '../../../../accests/images/profile.jpg'
+import { AuthContext } from '../../../../Context/AuthContext'
 
 export default function ChatHeader() {
+  const {user} = useContext(AuthContext)
   return (
     <div className='Navbar'>
       <h6 className='fw-bold text-white mt-1'>Talk Now</h6>
